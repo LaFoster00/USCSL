@@ -39,11 +39,11 @@ namespace USCSL
             int height = original.height;
             int width = original.width;
             Color[,] rotatedPixels = new Color[width, height];
-            for (int y = 0; y < width; y++)
+            for (int y = 0; y < height; y++)
             {
-                for (int x = 0; x < height; x++)
+                for (int x = 0; x < width; x++)
                 {
-                    rotatedPixels[y, x] = pixels[x, width - 1 - y];
+                    rotatedPixels[y, x] = pixels[width - 1 - x, y];
                 }
             }
 
