@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 
 namespace USCSL
 {
@@ -24,8 +25,11 @@ namespace USCSL
                     pixels[x + y * width] = original.GetPixel(width - 1 - x, y, 0);
                 }
             }
-        
-            Texture2D mirrored = new Texture2D(original.width, original.height);
+            
+            Texture2D mirrored = new Texture2D(original.width, original.height, TextureFormat.RGBA32, original.mipmapCount != 0)
+                {
+                    filterMode = original.filterMode
+                };
             mirrored.SetPixels(pixels);
             mirrored.Apply();
          
@@ -46,8 +50,11 @@ namespace USCSL
                     rotatedPixels[y, x] = pixels[width - 1 - x, y];
                 }
             }
-
-            Texture2D result = new Texture2D(original.width, original.height);
+            
+            Texture2D result = new Texture2D(original.width, original.height, TextureFormat.RGBA32, original.mipmapCount != 0)
+                {
+                    filterMode = original.filterMode
+                };
             result.SetPixels(rotatedPixels.Cast<Color>().ToArray());
             result.Apply();
             return result;
