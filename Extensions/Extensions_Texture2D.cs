@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering;
 
 namespace USCSL
 {
@@ -58,6 +55,11 @@ namespace USCSL
             result.SetPixels(rotatedPixels.Cast<Color>().ToArray());
             result.Apply();
             return result;
+        }
+
+        public static void Swap(ref Texture2D tex1, ref Texture2D tex2)
+        {
+            (tex1, tex2) = (tex2, tex1);
         }
     }
 }
