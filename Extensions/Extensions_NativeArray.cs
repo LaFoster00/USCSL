@@ -50,7 +50,7 @@ namespace USCSL
             where T : struct
         {
             NativeArray<T> nativeArray = NativeArrayUnsafeUtility.ConvertExistingDataToNativeArray<T>(arrayRef.ptr.ToPointer(),
-                arrayRef.length, Allocator.Invalid);
+                arrayRef.length, Allocator.None);
             NativeArrayUnsafeUtility.SetAtomicSafetyHandle(ref nativeArray, arrayRef.safetyHandle);
             array = nativeArray;
         }
@@ -85,6 +85,7 @@ namespace USCSL
                 sum += array[i];
             }
 
+            array.Dispose();
             return sum;
         }
         
@@ -97,6 +98,8 @@ namespace USCSL
             {
                 sum += array[i];
             }
+
+            array.Dispose();
             
             return sum;
         }
