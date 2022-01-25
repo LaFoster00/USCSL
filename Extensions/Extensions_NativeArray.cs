@@ -22,6 +22,12 @@ namespace USCSL
             }
         }
 
+        /// <summary>
+        /// Not Burst Compatible!
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="handle"></param>
+        /// <typeparam name="T"></typeparam>
         [BurstDiscard]
         public static unsafe void GetSafetyHandle<T>(ref NativeArray<T> array, out AtomicSafetyHandle handle)
             where T : struct
@@ -29,6 +35,12 @@ namespace USCSL
             handle = NativeArrayUnsafeUtility.GetAtomicSafetyHandle(array);
         }
         
+        /// <summary>
+        /// Not Burst Compatible!
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="handle"></param>
+        /// <typeparam name="T"></typeparam>
         [BurstDiscard]
         public static void GetReadWriteRef<T>(ref NativeArray<T> array, out NativeArrayRef @ref) where T : struct
         {
@@ -37,6 +49,12 @@ namespace USCSL
             @ref = new NativeArrayRef(ptr, array.Length, handle);
         }
         
+        /// <summary>
+        /// Not Burst Compatible!
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="handle"></param>
+        /// <typeparam name="T"></typeparam>
         [BurstDiscard]
         public static void GetReadonlyRef<T>(ref NativeArray<T> array, out NativeArrayRef @ref) where T : struct
         {
@@ -45,6 +63,12 @@ namespace USCSL
             @ref = new NativeArrayRef(ptr, array.Length, handle);
         }
 
+        /// <summary>
+        /// Not Burst Compatible!
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="handle"></param>
+        /// <typeparam name="T"></typeparam>
         [BurstDiscard]
         public static unsafe void ToNativeArray<T>(ref NativeArrayRef arrayRef, out NativeArray<T> array)
             where T : struct
@@ -55,6 +79,12 @@ namespace USCSL
             array = nativeArray;
         }
 
+        /// <summary>
+        /// Not Burst Compatible!
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="handle"></param>
+        /// <typeparam name="T"></typeparam>
         [BurstDiscard]
         public static unsafe void ToNativeReadonlyArray<T>(ref NativeArrayRef arrayRef,
             out NativeArray<T>.ReadOnly array) where T : struct
@@ -63,12 +93,24 @@ namespace USCSL
             array = readWriteArray.AsReadOnly();
         }
 
+        /// <summary>
+        /// Not Burst Compatible!
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="handle"></param>
+        /// <typeparam name="T"></typeparam>
         [BurstDiscard]
         public static unsafe void GetReadWriteIntPtr<T>(ref NativeArray<T> array, out IntPtr ptr) where T : struct
         {
             ptr = new IntPtr(array.GetUnsafePtr());
         }
 
+        /// <summary>
+        /// Not Burst Compatible!
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="handle"></param>
+        /// <typeparam name="T"></typeparam>
         [BurstDiscard]
         public static unsafe void GetReadonlyIntPtr<T>(ref NativeArray<T> array, out IntPtr ptr) where T : struct
         {
@@ -76,31 +118,24 @@ namespace USCSL
         }
 
         [BurstCompile]
-        public static int SumInts(ref NativeArrayRef arrayRef)
+        public static int SumInts(ref NativeSlice<int> array)
         {
-            ToNativeArray<int>(ref arrayRef, out var array);
             int sum = 0;
             for (int i = 0; i < array.Length; i++)
             {
                 sum += array[i];
             }
-
-            array.Dispose();
             return sum;
         }
         
         [BurstCompile]
-        public static double SumDoubles(ref NativeArrayRef arrayRef)
+        public static double SumDoubles(ref NativeSlice<double> array)
         {
-            ToNativeArray<double>(ref arrayRef, out var array);
             double sum = 0;
             for (int i = 0; i < array.Length; i++)
             {
                 sum += array[i];
             }
-
-            array.Dispose();
-            
             return sum;
         }
     }

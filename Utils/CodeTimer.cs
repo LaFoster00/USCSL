@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using Unity.Burst;
 
 namespace USCSL.Utils
 {
@@ -49,7 +50,7 @@ namespace USCSL.Utils
                 : $"Stopwatch measured {_stopwatch.Elapsed.TotalSeconds} seconds.");
         }
     }
-
+    
     public struct CodeTimer_Average
     {
         private TimerInfo _timerInfo;
@@ -96,6 +97,7 @@ namespace USCSL.Utils
             return message;
         }
 
+        
         [MethodImpl(MethodImplOptions.NoInlining)]
         public CodeTimer_Average(bool printFunctionName, bool printTotalTime, bool printNbInvocations, Action<string> logFunction)
         {
