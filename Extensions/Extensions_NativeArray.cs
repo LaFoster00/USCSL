@@ -12,6 +12,7 @@ namespace USCSL
         {
             public IntPtr ptr;
             public int length;
+#if ENABLE_UNITY_COLLECTIONS_CHECKS
             public AtomicSafetyHandle safetyHandle;
 
             public NativeArrayRef(IntPtr ptr, int length, AtomicSafetyHandle safetyHandle)
@@ -20,8 +21,16 @@ namespace USCSL
                 this.length = length;
                 this.safetyHandle = safetyHandle;
             }
+#else
+            public NativeArrayRef(IntPtr ptr, int length)
+            {
+                this.ptr = ptr;
+                this.length = length;
+            }
+#endif
         }
 
+#if ENABLE_UNITY_COLLECTIONS_CHECKS
         /// <summary>
         /// Not Burst Compatible!
         /// </summary>
@@ -34,7 +43,8 @@ namespace USCSL
         {
             handle = NativeArrayUnsafeUtility.GetAtomicSafetyHandle(array);
         }
-        
+#endif
+
         /// <summary>
         /// Not Burst Compatible!
         /// </summary>
@@ -45,8 +55,12 @@ namespace USCSL
         public static void GetReadWriteRef<T>(ref NativeArray<T> array, out NativeArrayRef @ref) where T : struct
         {
             GetReadWriteIntPtr(ref array, out var ptr);
+#if ENABLE_UNITY_COLLECTIONS_CHECKS
             GetSafetyHandle(ref array, out var handle);
             @ref = new NativeArrayRef(ptr, array.Length, handle);
+#else
+            @ref = new NativeArrayRef(ptr, array.Length);
+#endif
         }
         
         /// <summary>
@@ -59,8 +73,12 @@ namespace USCSL
         public static void GetReadonlyRef<T>(ref NativeArray<T> array, out NativeArrayRef @ref) where T : struct
         {
             GetReadonlyIntPtr(ref array, out var ptr);
+#if ENABLE_UNITY_COLLECTIONS_CHECKS
             GetSafetyHandle(ref array, out var handle);
             @ref = new NativeArrayRef(ptr, array.Length, handle);
+#else
+            @ref = new NativeArrayRef(ptr, array.Length);
+#endif
         }
 
         /// <summary>
@@ -75,7 +93,9 @@ namespace USCSL
         {
             NativeArray<T> nativeArray = NativeArrayUnsafeUtility.ConvertExistingDataToNativeArray<T>(arrayRef.ptr.ToPointer(),
                 arrayRef.length, Allocator.None);
+#if ENABLE_UNITY_COLLECTIONS_CHECKS
             NativeArrayUnsafeUtility.SetAtomicSafetyHandle(ref nativeArray, arrayRef.safetyHandle);
+#endif
             array = nativeArray;
         }
 

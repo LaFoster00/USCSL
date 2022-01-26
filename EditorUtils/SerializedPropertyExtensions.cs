@@ -2,13 +2,16 @@
 using System.Collections;
 using System.Reflection;
 using System.Text.RegularExpressions;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 // Provide simple value get/set methods for SerializedProperty.  Can be used with
 // any data types and with arbitrarily deeply-pathed properties.
 public static class SerializedPropertyExtensions
 {
+#if UNITY_EDITOR
     /// (Extension) Get the value of the serialized property.
     public static object GetValue(this SerializedProperty property)
     {
@@ -48,7 +51,7 @@ public static class SerializedPropertyExtensions
         Debug.Assert(!container.GetType().IsValueType, $"Cannot use SerializedObject.SetValue on a struct object, as the result will be set on a temporary.  Either change {container.GetType().Name} to a class, or use SetValue with a parent member.");
         SetPathComponentValue(container, deferredToken, value);
     }
-
+#endif
     // Union type representing either a property name or array element index.  The element
     // index is valid only if propertyName is null.
     struct PropertyPathComponent

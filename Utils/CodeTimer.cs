@@ -97,6 +97,11 @@ namespace USCSL.Utils
             return message;
         }
 
+        public static void Reset()
+        {
+            FunctionCallTimings.Clear();
+        }
+
         
         [MethodImpl(MethodImplOptions.NoInlining)]
         public CodeTimer_Average(bool printFunctionName, bool printTotalTime, bool printNbInvocations, Action<string> logFunction)
