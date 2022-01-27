@@ -99,7 +99,7 @@ namespace USCSL.Utils
 
         public static void Reset()
         {
-            FunctionCallTimings.Clear();
+            FunctionCallTimings?.Clear();
         }
 
         
