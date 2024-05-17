@@ -1,0 +1,24 @@
+{
+  "name": "com.[LaFoster00].[USCSL]",
+  "version": "1.0.0",
+  "displayName": "USCSL",
+  "description": "LaFoster00 Unity Standard C Sharp Library\nThis is a library containing a whole bunch of Utitlity functions that Unity did not or does not supply out of the box.\nIt is far from perfect but does add quite a bit of functionality.",
+  "unity": "2022.3",
+  "dependencies": {
+    "com.dbrizov.naughtyattributes": "2.1.4",
+    "com.unity.burst": "1.8.13",
+    "com.unity.collections" : "2.1.4",
+    "com.unity.mathematics" : "1.2.6"
+  },
+  "keywords": [
+    "Utitlity",
+    "Programming",
+    "Scripting",
+    "Util"
+  ],
+  "author": {
+    "name": "LaFoster00",
+    "email": "60134005+LaFoster00@users.noreply.github.com",
+    "url": "https://github.com/LaFoster00"
+  }
+}
