@@ -1,4 +1,3 @@
-
 using System.Collections;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -22,7 +21,7 @@ public static class SerializedPropertyExtensions
             value = GetPathComponentValue(value, token);
         return value;
     }
-    
+
     /// (Extension) Set the value of the serialized property.
     public static void SetValue(this SerializedProperty property, object value)
     {
@@ -48,7 +47,9 @@ public static class SerializedPropertyExtensions
             container = GetPathComponentValue(container, deferredToken);
             deferredToken = token;
         }
-        Debug.Assert(!container.GetType().IsValueType, $"Cannot use SerializedObject.SetValue on a struct object, as the result will be set on a temporary.  Either change {container.GetType().Name} to a class, or use SetValue with a parent member.");
+
+        Debug.Assert(!container.GetType().IsValueType,
+            $"Cannot use SerializedObject.SetValue on a struct object, as the result will be set on a temporary.  Either change {container.GetType().Name} to a class, or use SetValue with a parent member.");
         SetPathComponentValue(container, deferredToken, value);
     }
 #endif
@@ -115,7 +116,7 @@ public static class SerializedPropertyExtensions
         else
             return GetMemberValue(container, component.propertyName);
     }
-    
+
     static void SetPathComponentValue(object container, PropertyPathComponent component, object value)
     {
         if (component.propertyName == null)
@@ -137,6 +138,7 @@ public static class SerializedPropertyExtensions
             else if (members[i] is PropertyInfo property)
                 return property.GetValue(container);
         }
+
         return null;
     }
 
@@ -157,6 +159,38 @@ public static class SerializedPropertyExtensions
                 return;
             }
         }
+
         Debug.Assert(false, $"Failed to set member {container}.{name} via reflection");
+    }
+
+    public static void DrawDefaultInspector(this SerializedProperty property)
+    {
+        if (property.propertyType != SerializedPropertyType.ObjectReference)
+        {
+            property.NextVisible(true);
+            while (property.NextVisible(false))
+            {
+                EditorGUILayout.PropertyField(property, true);
+            }
+        }
+        else
+        {
+            var sObject = new SerializedObject(property.objectReferenceValue);
+
+            SerializedProperty referencedProp = sObject.GetIterator();
+
+            // Iterate over the properties of the referenced object
+            EditorGUI.indentLevel++;
+            referencedProp.NextVisible(true); // Move to the first visible property
+            while (referencedProp.NextVisible(false))
+            {
+                EditorGUILayout.PropertyField(referencedProp, true);
+            }
+
+            EditorGUI.indentLevel--;
+
+            // Apply any changes to the referenced object
+            sObject.ApplyModifiedProperties();
+        }
     }
 }
