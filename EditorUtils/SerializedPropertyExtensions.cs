@@ -52,7 +52,7 @@ public static class SerializedPropertyExtensions
             $"Cannot use SerializedObject.SetValue on a struct object, as the result will be set on a temporary.  Either change {container.GetType().Name} to a class, or use SetValue with a parent member.");
         SetPathComponentValue(container, deferredToken, value);
     }
-#endif
+
     // Union type representing either a property name or array element index.  The element
     // index is valid only if propertyName is null.
     struct PropertyPathComponent
@@ -193,4 +193,5 @@ public static class SerializedPropertyExtensions
             sObject.ApplyModifiedProperties();
         }
     }
+#endif
 }

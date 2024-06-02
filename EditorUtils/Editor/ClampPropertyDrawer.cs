@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+
+#if UNITY_EDITOR
 using NaughtyAttributes;
 using NaughtyAttributes.Editor;
 using UnityEditor;
@@ -73,3 +75,4 @@ public class ClampPropertyDrawer : PropertyDrawer
         }
     }
 }
+#endif
